@@ -1,0 +1,550 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<conio.h>
+#include<windows.h>
+#include<math.h>
+void Dbox(int, int, int, int);
+void D_box(int, int, int, int);
+void asterisk_line(int, int, int);
+char menu;
+int main(){
+    char main_menu[10];
+    Dbox(25,7,95,22);
+    repeat:
+    D_box(25,7,95,22);
+    textcolor(12); gotoxy(57,7); printf(" MENU ");
+    textcolor(10);
+    gotoxy(47,11); printf("[ 1 ] Square Root");
+    gotoxy(47,12); printf("[ 2 ] Compound Interest");
+    gotoxy(47,13); printf("[ 3 ] Arithmetic Operation");
+    gotoxy(47,14); printf("[ 0 ] Exit");
+    for(;;){
+        textcolor(3); gotoxy(47,17); printf("Input Choice: ");
+        fgets(main_menu, sizeof(main_menu), stdin); // read the input from user, using fgets for flexibility
+        size_t LENGTH = strlen(main_menu);  // get the length of input
+        //check if input has a newline character at the end and remove it
+        if (LENGTH > 0 && main_menu[LENGTH - 1] == '\n') {
+            main_menu[LENGTH - 1] = '\0';
+        }
+        //check if the input is empty ( only contains newline) and adjust cursor position
+        if (strlen(main_menu) == 0) {
+            gotoxy(0, 11);
+        } else {
+            break;  // breaking a loop so that it can be proceed to another conditions
+        }
+    }
+    // check if main_menu is equal in a character that being compared using strcmp that i can use string
+    //and compare main_menu in given character using ASCII so if main_menu are equal to a given character it will return 0
+    if(strcmp (main_menu, "1") == 0){   // check if main_menu is "1"
+        loading();
+        SQUARE_ROOT();
+    }
+    else if(strcmp (main_menu, "2") == 0){  // check if main_menu is "2"
+        loading();
+        COMPOUND_INTEREST();
+    }
+    else if(strcmp (main_menu, "3") == 0){  // check if main_menu is "3"
+        loading();
+        ARITHMETIC_OPERATION();
+    }
+    else if(strcmp (main_menu, "0") == 0){  // check if main_menu is "0"
+        clrscr();
+        D_box(25,7,95,22);
+        textcolor(4); gotoxy(54,14); printf("Thank You....");
+        textcolor(3); gotoxy(34,19); printf("Authors: Mark Joseph L. Elazegui, John Henry C. Barba,");
+        gotoxy(43,20); printf("John Loinel R. Deleon, Lee Marvin Bravo");
+        textcolor(15); gotoxy(0,26); printf(" ");
+    }
+    else{
+        clrscr();
+        textcolor(4);gotoxy(45,16); printf("Invalid Choice... Enter Again...");
+        goto repeat;
+    }
+}
+// Final Activity Functions
+int SQUARE_ROOT(){
+    double square_root_calcu(const char* str);
+    char NUM[20], menu;
+    double RESULT;
+
+    repeat:
+    D_box(25,7,95,22);
+    textcolor(12); gotoxy(47,7); printf(" Square Root Calculator ");
+    for(;;){    // infinite loop
+        textcolor(3); gotoxy(30,11); printf("Enter a Number: ");
+        fgets(NUM, sizeof(NUM), stdin); // read the input from user, using fgets for flexibility
+        size_t LENGTH = strlen(NUM);    // get the length of input
+        //check if input has a newline character at the end and remove it
+        if (LENGTH > 0 && NUM[LENGTH - 1] == '\n') {
+            NUM[LENGTH - 1] = '\0';
+        }
+        //check if the input is empty ( only contains newline) and adjust cursor position
+        if (strlen(NUM) == 0) {
+            gotoxy(0, 11);  // move cursor to the "Enter a Number:"
+        } else {
+            break;  // breaking a loop so that it can be proceed to another conditions
+        }
+    }
+
+    RESULT = square_root_calcu(NUM);    // we use a different funtion to calculate square root using string that will converted into a double
+    // check if the input are negative
+    if(NUM[0] == '-'){
+        clrscr();
+        textcolor(4); gotoxy(30,10); printf("Cannot calculate square root of a negative number.");
+        goto repeat;
+    }
+    else if(isdigit(NUM[0])){
+            textcolor(2); gotoxy(30,14); printf("Square root of %s is %.5lf", NUM, RESULT);
+    }
+    else{
+        clrscr();
+        textcolor(4); gotoxy(30,10); printf("Invalid Input... Enter Again...");
+        goto repeat;
+    }
+    asterisk_line(25, 18, 95);
+    for(;;){    // infinite loop
+        textcolor(3); gotoxy(30,20); printf("Press Enter to rerun the program, or any other key to quit: ");
+        menu = getchar();   // get a character from user
+        gotoxy(90,20); printf("");  // to make it go back at the and of the asking input above it user enter so this will not make a newline
+        while (getchar() != '\n');  // clearing input buffer by consuming character until a newline character are created
+
+        if(menu == '\n') {  // if user pressed enter key (newline)
+            clrscr();
+            goto repeat;    // jump to label "repeat" so user can rerun program
+        }
+        else{   // going back to menu if user entered another key
+            loading();
+            main();
+            break;  // breaking the loop so this will not appear again
+        }
+    }
+
+    return 0;
+}
+int COMPOUND_INTEREST(){
+    char STR_PRINCIPLE[50], STR_TIME[50], STR_RATE[50];
+    double PRINCIPLE = 0, TIME = 0, RATE = 0, CI = 0;
+
+    repeat:
+    D_box(25,7,95,22);
+    textcolor(12); gotoxy(51,7); printf(" Compound Interest ");
+    for(;;){    // infinite loop
+        textcolor(3); gotoxy(30,10); printf("Enter the principle amount                 : ");
+        fgets(STR_PRINCIPLE, sizeof(STR_PRINCIPLE), stdin); // read the input from user, using fgets for flexibility
+        size_t LENGTH = strlen(STR_PRINCIPLE);  // get the length of input
+        //check if input has a newline character at the end and remove it
+        if (LENGTH > 0 && STR_PRINCIPLE[LENGTH - 1] == '\n') {
+            STR_PRINCIPLE[LENGTH - 1] = '\0';
+        }
+        //check if the input is empty ( only contains newline) and adjust cursor position
+        if (strlen(STR_PRINCIPLE) == 0) {
+            gotoxy(0, 11);  // move cursor to the "Enter the principle amount                 :"
+        } else {
+            break;  // breaking a loop so that it can be proceed to another conditions
+        }
+    }
+    // if user entered a negative number or none numeric character it will be displaying invalid input message, then user can input again
+    if(sscanf(STR_PRINCIPLE, "%lf", &PRINCIPLE) != 1 || PRINCIPLE < 0) {
+        clrscr();
+        textcolor(4); gotoxy(30,9); printf("Invalid input for Principle... Enter Again...");
+        goto repeat;
+    }
+    repeat1:
+    for(;;){
+        textcolor(3); gotoxy(30,11); printf("Enter the time (in years)                  : ");
+        fgets(STR_TIME, sizeof(STR_TIME), stdin);
+        size_t LENGTH = strlen(STR_TIME);
+        if (LENGTH > 0 && STR_TIME[LENGTH - 1] == '\n') {
+            STR_TIME[LENGTH - 1] = '\0';
+        }
+        if (strlen(STR_TIME) == 0) {
+            gotoxy(0, 11);
+        } else {
+            break;
+        }
+    }
+    if(sscanf(STR_TIME, "%lf", &TIME) != 1 || TIME < 0){
+        clrscr();
+        D_box(25,7,95,22);
+        textcolor(12); gotoxy(51,7); printf(" Compound Interest ");
+        textcolor(4); gotoxy(30,9); printf("Invalid input for Time... Enter Again...");
+        textcolor(3); gotoxy(30,10); printf("Enter the principle amount                 : %.0lf", PRINCIPLE);
+        goto repeat1;
+    }
+    repeat2:
+
+    for(;;){
+        textcolor(3); gotoxy(30,12); printf("Enter the rate of interest (in percentage) : ");
+        fgets(STR_RATE, sizeof(STR_RATE), stdin);
+        size_t LENGTH = strlen(STR_RATE);
+        if (LENGTH > 0 && STR_RATE[LENGTH - 1] == '\n') {
+            STR_RATE[LENGTH - 1] = '\0';
+        }
+        if (strlen(STR_RATE) == 0) {
+            gotoxy(0, 11);
+        } else {
+            break;
+        }
+    }
+    if(sscanf(STR_RATE, "%lf", &RATE) != 1 || RATE < 0){
+        clrscr();
+        D_box(25,7,95,22);
+        textcolor(12); gotoxy(51,7); printf(" Compound Interest ");
+        textcolor(4); gotoxy(30,9); printf("Invalid input for Rate... Enter Again...");
+        textcolor(3); gotoxy(30,10); printf("Enter the principle amount                 : %.0lf", PRINCIPLE);
+        gotoxy(30,11); printf("Enter the time (in years)                  : %.0lf", TIME);
+        goto repeat2;
+    }
+
+    CI = PRINCIPLE * pow((1 + RATE / 100), TIME);
+
+    textcolor(2); gotoxy(30,15);printf("Compound Interest: %.2lf", CI);
+
+    asterisk_line(25, 18, 95);
+
+    for(;;){
+        textcolor(3); gotoxy(30,20); printf("Press Enter to rerun the program, or any other key to quit: ");
+        menu = getchar();
+        gotoxy(90,20); printf("");
+        while (getchar() != '\n');
+
+        if(menu == '\n') {
+            clrscr();
+            goto repeat;
+        }
+        else{
+            loading();
+            main();
+            break;
+        }
+    }
+    return 0;
+}
+int ARITHMETIC_OPERATION(){
+    char STR_NUM1[50], STR_NUM2[50],CHOICE[20];
+    double NUM1, NUM2, RES, RES1;
+    const char *CHOICE_NAME;
+
+    repeat:
+    D_box(25,7,95,22);
+    textcolor(12); gotoxy(50,7); printf(" Arithmetic Operation ");
+    for(;;){
+        textcolor(3); gotoxy(30,11); printf("Enter first number  : ");
+        fgets(STR_NUM1, sizeof(STR_NUM1), stdin);
+        size_t LENGTH = strlen(STR_NUM1);
+        if (LENGTH > 0 && STR_NUM1[LENGTH - 1] == '\n') {
+            STR_NUM1[LENGTH - 1] = '\0';
+        }
+        if (strlen(STR_NUM1) == 0) {
+            gotoxy(0, 11);
+        } else {
+            break;
+        }
+    }
+    if(sscanf(STR_NUM1, "%lf", &NUM1) != 1){
+        clrscr();
+        D_box(25,7,95,22);
+        textcolor(12); gotoxy(50,7); printf(" Arithmetic Operation ");
+        textcolor(4); gotoxy(30,10); printf("Invalid input for first number... Enter Again...");
+        goto repeat;
+    }
+    repeat1:
+
+    for(;;){
+        textcolor(3); gotoxy(30,12); printf("Enter second number : ");
+        fgets(STR_NUM2, sizeof(STR_NUM2), stdin);
+        size_t LENGTH = strlen(STR_NUM2);
+        if (LENGTH > 0 && STR_NUM2[LENGTH - 1] == '\n') {
+            STR_NUM2[LENGTH - 1] = '\0';
+        }
+        if (strlen(STR_NUM2) == 0) {
+            gotoxy(0, 11);
+        } else {
+            break;
+        }
+    }
+    if(sscanf(STR_NUM2, "%lf", &NUM2) != 1 || NUM2 < 0){
+        clrscr();
+        D_box(25,7,95,22);
+        textcolor(12); gotoxy(50,7); printf(" Arithmetic Operation ");
+        textcolor(4); gotoxy(30,10); printf("Invalid input for second number... Enter Again...");
+        textcolor(3); gotoxy(30,11); printf("Enter first number  : %.0lf", NUM1);
+        goto repeat1;
+    }
+    redo:
+    textcolor(3); gotoxy(30,14);printf("Select Operation:");
+    textcolor(2); gotoxy(30,15);printf("[ 1 ] Sum            [ 2 ] Difference     [ 3 ] Product ");
+    gotoxy(30,16);printf("[ 4 ] Quotient       [ 5 ] Modulus        [ 6 ] Integer Division ");
+    gotoxy(30,17);printf("[ 7 ] Floor Division [ 8 ] Exponentiation [ 9 ] Increment");
+    gotoxy(30,18);printf("[ 0 ] Decrement");
+
+    for(;;){
+        textcolor(3); gotoxy(30,20);printf("Input Choice: ");
+        fgets(CHOICE, sizeof(CHOICE), stdin);
+        size_t LENGTH = strlen(CHOICE);
+        if (LENGTH > 0 && CHOICE[LENGTH - 1] == '\n') {
+            CHOICE[LENGTH - 1] = '\0';
+        }
+        if (strlen(CHOICE) == 0) {
+            gotoxy(0, 11);
+        } else {
+            break;
+        }
+    }
+    if(strcmp (CHOICE, "1") == 0){
+        RES = NUM1 + NUM2;
+        CHOICE_NAME = "Sum";
+    }
+    else if(strcmp (CHOICE, "2") == 0){
+        RES = NUM1 - NUM2;
+        CHOICE_NAME = "Difference";
+    }
+    else if(strcmp (CHOICE, "3") == 0){
+        RES = NUM1 * NUM2;
+        CHOICE_NAME = "Product";
+    }
+    else if(strcmp (CHOICE, "4") == 0){
+        if(NUM2 != 0){
+            RES = NUM1 / NUM2;
+            CHOICE_NAME = "Quotient";
+        }
+        else{
+            clrscr();
+            textcolor(4); gotoxy(30,15); printf("Cannot divide by zero...");
+            goto skip;
+        }
+    }
+    else if(strcmp (CHOICE, "5") == 0){
+        if(NUM2 != 0){
+            RES = fmod(NUM1, NUM2);
+            CHOICE_NAME = "Modulus";
+        }
+        else{
+            clrscr();
+            textcolor(4); gotoxy(30,15); printf("Cannot calculate modulus by zero...");
+            goto skip;
+        }
+    }
+    else if(strcmp (CHOICE, "6") == 0){
+        if(NUM2 != 0){
+            RES = (int)NUM1 / (int)NUM2;
+            CHOICE_NAME = "Integer Division";
+        }
+        else{
+            clrscr();
+            textcolor(4); gotoxy(30,15); printf("Cannot perform integer division by zero...");
+            goto skip;
+        }
+    }
+    else if(strcmp (CHOICE, "7") == 0){
+        if(NUM2 != 0){
+            RES = floor(NUM1 / NUM2);
+            CHOICE_NAME = "Floor Division";
+        }
+        else{
+            clrscr();
+            textcolor(4); gotoxy(30,15); printf("Cannot perform floor division by zero...");
+            goto skip;
+        }
+    }
+    else if(strcmp (CHOICE, "8") == 0){
+        RES = pow(NUM1, NUM2);
+        CHOICE_NAME = "Exponentiation";
+    }
+    else if(strcmp (CHOICE, "9") == 0){
+        clrscr();
+        RES = NUM1 + 1;
+        RES1 = NUM2 + 1;
+        CHOICE_NAME = "Increment";
+        textcolor(2); gotoxy(30,15); printf("The %s of %.0lf and %.0lf is %.2lf and %.2lf",CHOICE_NAME, NUM1, NUM2, RES, RES1);
+        goto skip;
+    }
+   else if(strcmp (CHOICE, "0") == 0){
+        clrscr();
+        D_box(25,7,95,22);
+        RES = NUM1 - 1;
+        RES1 = NUM2 - 1;
+        CHOICE_NAME = "Decrement";
+        textcolor(2); gotoxy(30,15); printf("The %s of %.0lf and %.0lf is %.2lf and %.2lf",CHOICE_NAME, NUM1, NUM2, RES, RES1);
+        goto skip;
+    }
+    else{
+        clrscr();
+        D_box(25,7,95,22);
+        textcolor(12); gotoxy(50,7); printf(" Arithmetic Operation ");
+        textcolor(3); gotoxy(30,11); printf("Enter the first number  : %.0lf", NUM1);
+        gotoxy(30,12); printf("Enter the second number : %.0lf", NUM2);
+        textcolor(4); gotoxy(30,19);printf("Invalid Choice... Enter Again...");
+        goto redo;
+    }
+    clrscr();
+    textcolor(2); gotoxy(30,15); printf("The %s of %.0lf and %.0lf is %.2lf",CHOICE_NAME, NUM1, NUM2, RES);
+    skip:
+    D_box(25,7,95,22);
+    textcolor(12); gotoxy(50,7); printf(" Arithmetic Operation ");
+    textcolor(3); gotoxy(30,11); printf("Enter the first number  : %.0lf", NUM1);
+    gotoxy(30,12); printf("Enter the second number : %.0lf", NUM2);
+
+    asterisk_line(25, 18, 95);
+
+    for(;;){
+        textcolor(3); gotoxy(30,20); printf("Press Enter to rerun the program, or any other key to quit: ");
+        menu = getchar();
+        gotoxy(90,20); printf("");
+        while (getchar() != '\n');
+
+        if(menu == '\n') {
+            clrscr();
+            goto repeat;
+        }
+        else{
+            loading();
+            main();
+            break;
+        }
+    }
+}
+//Functions
+double square_root_calcu(const char* str){
+    double sqrt = atof(str); //convertion of string to double
+    if(sqrt < 0){   // checking if sqrt are lessthan 0
+        return -1.0;    // returning -1.0 if sqrt are lessthan zero
+    }
+    double num = sqrt;
+
+    for(;(num * num - sqrt) > 0.00001;){
+        num = 0.5 * (num + sqrt / num);
+    }
+    return num;
+}
+void textcolor(int ForgC){   //Textcolor Function
+ WORD wColor;
+
+  HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+  CONSOLE_SCREEN_BUFFER_INFO csbi;
+
+                       //We use csbi for the wAttributes word.
+ if(GetConsoleScreenBufferInfo(hStdOut, &csbi))
+ {
+                 //Mask out all but the background attribute, and add in the forgournd color
+      wColor = (csbi.wAttributes & 0xF0) + (ForgC & 0x0F);
+      SetConsoleTextAttribute(hStdOut, wColor);
+ }
+   return;
+}
+void asterisk_line(int L, int T, int R){
+    int i;
+    textcolor(8);
+    for(i = 0; i < R - L - 1;){
+        i++;
+        gotoxy(L + i, T);
+        printf("%c", 42);
+    }
+    textcolor(15);
+}
+void Dbox(int L, int T, int R, int B){   //Moving Double box function
+    int i;
+    textcolor(14);
+    for(i=0; i<R-L-1;)
+    {
+        i++;
+        Sleep(1);
+        gotoxy(L+i,T);
+        printf("%c", 205);
+    }
+        printf("%c", 187);
+    for(i=0; i<B-T;)
+    {
+        i++;
+        Sleep(1.5);
+        gotoxy(R,T+i);
+        printf("%c", 186);
+    }
+        gotoxy(R,B);
+        printf("%c", 188);
+    for(i=0; i>L-R;)
+    {
+        i--;
+        Sleep(1);
+        gotoxy(R+i,B);
+        printf("%c", 205);
+    }
+        gotoxy(L,B);
+        printf("%c", 200);
+
+    for(i=0; i>T-B;)
+    {
+        i--;
+        Sleep(1.5);
+        gotoxy(L,B+i);
+        printf("%c", 186);
+    }
+
+        gotoxy(L,T);
+        printf("%c", 201);
+
+        textcolor(15);
+}
+void D_box(int L, int T, int R, int B){   //Double box function
+    int i;
+    textcolor(14);
+    for(i=0; i<R-L-1;)
+    {
+        i++;
+        gotoxy(L+i,T);
+        printf("%c", 205);
+    }
+        printf("%c", 187);
+    for(i=0; i<B-T;)
+    {
+        i++;
+        gotoxy(R,T+i);
+        printf("%c", 186);
+    }
+        gotoxy(R,B);
+        printf("%c", 188);
+    for(i=0; i>L-R;)
+    {
+        i--;
+        gotoxy(R+i,B);
+        printf("%c", 205);
+    }
+        gotoxy(L,B);
+        printf("%c", 200);
+
+    for(i=0; i>T-B;)
+    {
+        i--;
+        gotoxy(L,B+i);
+        printf("%c", 186);
+    }
+
+        gotoxy(L,T);
+        printf("%c", 201);
+
+        textcolor(15);
+}
+void loading(){
+    clrscr();
+    D_box(25,7,95,22);
+    textcolor(10);
+    for (int i=0; i<15;i++)
+    {
+        gotoxy(48, 14);
+        printf("Loading.... Please Wait\n");
+        gotoxy(45,14); printf("%c",46); gotoxy(71,14); Sleep(50);
+        gotoxy(45,14); printf("%c",196); gotoxy(71,14); Sleep(50);
+        gotoxy(45,14); printf("%c",92); gotoxy(71,14); Sleep(50);
+        gotoxy(45,14); printf("%c",47); gotoxy(71,14); Sleep(50);
+    }
+    textcolor(15);
+    clrscr();
+}
+void gotoxy(int x, int y){       //gotoxy function
+    COORD xyPos = {0,0};
+    xyPos.X = x; xyPos.Y = y;
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), xyPos);
+}
+void clrscr(){               //clear screen function
+    clrscr==system("cls");
+}
